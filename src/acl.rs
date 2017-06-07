@@ -296,6 +296,7 @@ impl SimpleDacl {
     }
 }
 
+// ----- UNIT TESTS -----
 #[test]
 fn test_add_remove_entry() {
     let mut acl = SimpleDacl::new();

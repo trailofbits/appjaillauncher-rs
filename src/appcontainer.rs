@@ -282,6 +282,7 @@ impl Profile {
     }
 }
 
+// ----- UNIT TESTS -----
 #[test]
 fn test_profile_sid() {
     {
@@ -330,6 +331,18 @@ fn get_unittest_support_path() -> Option<PathBuf> {
 }
 
 #[cfg(test)]
+struct ProfileWrapper {
+    name: String,
+}
+
+#[cfg(test)]
+impl Drop for ProfileWrapper {
+    fn drop(&mut self) {
+        Profile::remove(&self.name);
+    }
+}
+
+#[cfg(test)]
 const OUTBOUND_CONNECT_MASK: u32 = 0x00000001;
 #[cfg(test)]
 const FILE_READ_MASK: u32 = 0x00000002;
@@ -340,19 +353,24 @@ const REGISTRY_READ_MASK: u32 = 0x00000008;
 #[cfg(test)]
 const REGISTRY_WRITE_MASK: u32 = 0x00000010;
 
+#[allow(unused_variables)]
 #[test]
 fn test_appcontainer() {
     let result = get_unittest_support_path();
     assert!(!result.is_none());
+
+    let profile_name = String::from("test_default_appjail");
 
     let mut child_path = result.unwrap();
     let dir_path = child_path.clone();
     child_path.push("sandbox-test.exe");
 
     println!("dir_path = {:?}", dir_path);
-    println!("Attempting to create default_appjail AppContainer profile...");
+    println!("Attempting to create AppContainer profile...");
 
-    if let Ok(mut profile) = Profile::new("default_appjail", child_path.to_str().unwrap()) {
+    if let Ok(mut profile) = Profile::new(&profile_name, child_path.to_str().unwrap()) {
+        let wrapper = ProfileWrapper { name: profile_name };
+
         {
             println!("Testing with default privileges");
             let launch_result = profile.launch(INVALID_HANDLE_VALUE,
@@ -424,29 +442,31 @@ fn test_appcontainer() {
             assert!((dwExitCode & REGISTRY_READ_MASK) == 0);
             assert!((dwExitCode & REGISTRY_WRITE_MASK) == 0);
         }
-
-        Profile::remove("default_appjail");
     } else {
         println!("Failed to create AppContainer profile");
         assert!(false);
     }
 }
 
+#[allow(unused_variables)]
 #[test]
 fn test_stdout_redirect() {
     let result = get_unittest_support_path();
     assert!(!result.is_none());
 
+    let profile_name = String::from("test_default_appjail2");
+
     let mut child_path = result.unwrap();
     let dir_path = child_path.clone();
     child_path.push("greenhornd.exe");
 
-    let raw_profile = Profile::new("default_appjail", child_path.to_str().unwrap());
+    let raw_profile = Profile::new(&profile_name, child_path.to_str().unwrap());
     if let Err(x) = raw_profile {
         println!("GLE={:}", x);
     }
     assert!(raw_profile.is_ok());
 
+    let wrapper = ProfileWrapper { name: profile_name };
     let profile = raw_profile.unwrap();
 
     let mut rChildStdin: HANDLE = 0 as HANDLE;
