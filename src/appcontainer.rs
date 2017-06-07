@@ -160,6 +160,7 @@ impl Profile {
             lpAttributeList: 0 as PPROC_THREAD_ATTRIBUTE_LIST,
         };
         let mut dwCreationFlags: DWORD = 0 as DWORD;
+        let mut attrBuf: Vec<u8>;
 
         if !self.debug {
             debug!("Setting up AppContainer");
@@ -189,7 +190,7 @@ impl Profile {
                 return Err(unsafe { kernel32::GetLastError() });
             }
 
-            let mut attrBuf: Vec<u8> = Vec::with_capacity(listSize as usize);
+            attrBuf = Vec::with_capacity(listSize as usize);
             if unsafe {
                    kernel32::InitializeProcThreadAttributeList(attrBuf.as_mut_ptr() as
                                                                LPPROC_THREAD_ATTRIBUTE_LIST,
