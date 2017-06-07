@@ -28,7 +28,8 @@ use winapi::{INVALID_HANDLE_VALUE, DWORD, INFINITE, WAIT_OBJECT_0};
 #[cfg(test)]
 use std::env;
 
-use winffi::{GENERIC_READ, GENERIC_EXECUTE};
+#[allow(unused_imports)]
+use winffi::{GENERIC_READ, GENERIC_EXECUTE, GENERIC_ALL};
 
 #[cfg(not(test))]
 use std::process;
@@ -421,6 +422,7 @@ impl Drop for AclOp {
         remove_sid_acl_entry(&self.path, &self.sid);
     }
 }
+
 #[allow(unused_variables)]
 #[allow(non_snake_case)]
 #[test]
@@ -431,10 +433,13 @@ fn test_sandbox_key_read() {
     let profile_name = String::from("test_default_appjail1");
 
     let mut child_path = result.unwrap();
-    let dir_path = child_path.clone();
+    let mut dir_path = child_path.clone();
     child_path.push("sandbox-test.exe");
 
+    dir_path.push("pub");
+
     let mut key_path = dir_path.clone();
+    key_path.push("pub");
     key_path.push("key2.txt");
 
     println!("dir_path = {:?}", dir_path);
@@ -464,6 +469,7 @@ fn test_sandbox_key_read() {
 
         let mut dwExitCode: DWORD = 0 as DWORD;
         assert!(unsafe { kernel32::GetExitCodeProcess(hProcess.raw, &mut dwExitCode) } != 0);
+        println!("ExitCode = {:08x}", dwExitCode);
 
         assert!((dwExitCode & KEY_READ_MASK) == 0)
     } else {

@@ -80,15 +80,19 @@ impl Profile {
             }
         }
 
+        let string_sid = match sid_to_string(pSid) {
+            Ok(x) => x,
+            Err(x) => return Err(x as HRESULT),
+        };
+
+        unsafe { winffi::FreeSid(pSid) };
+
         Ok(Profile {
                profile: profile.to_string(),
                childPath: path.to_string(),
                outboundNetwork: true,
                debug: false,
-               sid: match sid_to_string(pSid) {
-                   Ok(x) => x,
-                   _ => return Err(-1),
-               },
+               sid: string_sid,
            })
     }
 
