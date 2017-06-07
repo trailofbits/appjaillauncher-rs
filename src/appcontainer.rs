@@ -250,7 +250,7 @@ impl Profile {
             .encode_wide()
             .chain(once(0))
             .collect();
-        let mut cmdLine: Vec<u16> = OsStr::new(&self.childPath)
+        let cmdLine: Vec<u16> = OsStr::new(&self.childPath)
             .encode_wide()
             .chain(once(0))
             .collect();
@@ -262,8 +262,8 @@ impl Profile {
         };
 
         if unsafe {
-               kernel32::CreateProcessW(0 as LPWSTR,
-                                        cmdLine.as_mut_ptr(),
+               kernel32::CreateProcessW(cmdLine.as_ptr(),
+                                        0 as LPWSTR,
                                         0 as LPSECURITY_ATTRIBUTES,
                                         0 as LPSECURITY_ATTRIBUTES,
                                         1,
@@ -273,8 +273,8 @@ impl Profile {
                                         mem::transmute::<LPSTARTUPINFOEXW, LPSTARTUPINFOW>(&mut si),
                                         &mut pi)
            } == 0 {
-            debug!("CreateProcess failed: GLE={:}",
-                   unsafe { kernel32::GetLastError() });
+            println!("CreateProcess failed: GLE={:}",
+                     unsafe { kernel32::GetLastError() });
             return Err(unsafe { kernel32::GetLastError() });
         }
 
