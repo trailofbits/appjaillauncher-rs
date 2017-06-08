@@ -2,3 +2,4 @@ target/
 **/*.rs.bk
 Cargo.lock
 third_party/
+example/build/
