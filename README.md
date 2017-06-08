@@ -28,7 +28,7 @@ After building the example challenge, you can use **appjaillauncher-rs** to serv
 
 ### Questions
 #### What does `InitChallenge` do?
-The `InitChallenge` will create an timer that will terminate the process after a specified amount of milliseconds and also set `stdout` buffering options to work with network connections. The first part is very important to counter griefing operations directed at your challenges by malicious actors.
+The `InitChallenge` function will create an timer that will terminate the process after a specified amount of milliseconds and  set `stdout` buffering options to work better with network sockets. The first part is essential for countering griefing operations directed at your challenges by malicious actors.
 
 ## Development
 First, follow the instructions [here](https://www.rust-lang.org/en-US/install.html) and install Rust.
