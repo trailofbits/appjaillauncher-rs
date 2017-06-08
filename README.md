@@ -1,5 +1,5 @@
 # appjaillauncher-rs
-[AppJailLauncher](https://github.com/trailofbits/AppJailLauncher) but in Rust! This is akin to a simple version of **xinetd** for Windows but with sandboxing enabled for the spawned child processes. The sandboxing is accomplished via [AppContainers](goo.gl/5gNlUy).
+[AppJailLauncher](https://github.com/trailofbits/AppJailLauncher) but in Rust! This is akin to a simple version of **xinetd** for Windows but with sandboxing enabled for the spawned child processes. The sandboxing is accomplished via [AppContainers](https://goo.gl/5gNlUy).
 
 ## Supported Platforms
  * Windows 8 and above
