@@ -9,7 +9,7 @@
  * Windows 10 Professional x64 (build 15063.296)
  
 ## Creating Challenges
-There is an example challenge template in `example/` that can be build using **CMake**.
+There is an example challenge template in `example/` that can be built using **CMake**.
 
 To build the example challenge:
 <pre>
@@ -20,7 +20,7 @@ To build the example challenge:
 > cmake --build .
 </pre>
 
-After building the example challenge, you can use **appjaillauncher-rs** to serve the challenge via the following commands in the root of the repository:
+After building the example challenge, you can use **appjaillauncher-rs** to serve the challenge via the following command in the root of the repository:
 
 <pre>
 > .\target\debug\appjaillauncher-rs.exe run --key .\unittest_support\pub\key2.txt .\example\build\Debug\example_challenge.exe
