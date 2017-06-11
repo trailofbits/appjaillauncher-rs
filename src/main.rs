@@ -290,7 +290,7 @@ fn main() {
     let app_version: &str = &build_version();
     let matches = App::new("AppJailLauncher")
         .version(app_version)
-        .author("author <email>")
+        .author("Andy Ying <andy@trailofbits.com>")
         .about("A TCP server meant for spawning AppContainer'd client processes for Windows-based CTF challenges")
         .subcommand(SubCommand::with_name("run")
             .version(app_version)
