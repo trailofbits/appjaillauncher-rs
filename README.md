@@ -47,6 +47,9 @@ After installation, add `--target=i686-pc-windows-msvc` to the `cargo build`, `c
 #### I have a complex ACL setup for my key, why won't things work?
 Our ACL implementation is simple and should work on _most_ configurations. However, it is entirely possible that for complex ACL setups, this will not work as intended. If you run into any issues, file an issue.
 
+#### `cargo build` is complaining that `msvc targets depend on msvc linker but "link.exe" was not found`
+You need to at least install [Visual C++ 2015 Build Tools](http://go.microsoft.com/fwlink/?LinkId=691126&fixForIE=.exe).
+
 ## Development
 First, follow the instructions [here](https://www.rust-lang.org/en-US/install.html) and install Rust.
 
