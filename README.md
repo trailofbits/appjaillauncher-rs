@@ -1,6 +1,6 @@
 # AppJailLauncher (Rust)
 
-AppJailLauncher is akin to a simple version of **xinetd** for Windows but with sandboxing enabled for the spawned child processes. The sandboxing is accomplished via [AppContainers](https://goo.gl/5gNlUy). This project is a rewrite of an [earlier version](https://github.com/trailofbits/AppJailLauncher) written in C.
+AppJailLauncher is akin to a simple version of **xinetd** for Windows but with sandboxing enabled for the spawned child processes. The sandboxing is accomplished via [AppContainers](https://goo.gl/5gNlUy). This project is a rewrite of an [earlier version](https://github.com/trailofbits/AppJailLauncher) in C.
 
 ### Tested Platforms
  * Windows 10 Professional x64 (build 14393.1198)
