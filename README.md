@@ -35,7 +35,7 @@ After building the example challenge, you can use **appjaillauncher-rs** to serv
 The `InitChallenge` function will create an timer that will terminate the process after a specified amount of milliseconds and  set `stdout` buffering options to work better with network sockets. The first part is essential for countering griefing operations directed at your challenges by malicious actors.
 
 #### I think I broke something. Is there a way to get more logging?
-**appjaillauncher-rs** uses **env_logger** for logging. This means you can get more debug logging by setting the `RUST_LOG` environment variable to `debug`. For example, in PowerShell, the following command would be sufficient: 
+AppJailLauncher uses `env_logger` for logging. This means you can get more debug logging by setting the `RUST_LOG` environment variable to `debug`. For example, in PowerShell, the following command would be sufficient: 
 <pre>
 > $env:RUST_LOG="debug"
 </pre>
@@ -51,7 +51,7 @@ After installation, add `--target=i686-pc-windows-msvc` to the `cargo build`, `c
 Our ACL implementation is simple and should work on _most_ configurations. However, it is entirely possible that for complex ACL setups, this will not work as intended. If you run into any issues, file an issue.
 
 #### `cargo build` complains that `msvc targets depend on msvc linker but "link.exe" was not found`
-You need to at least install [Visual C++ 2015 Build Tools](http://go.microsoft.com/fwlink/?LinkId=691126&fixForIE=.exe).
+You need to install the [Visual C++ 2015 Build Tools](http://go.microsoft.com/fwlink/?LinkId=691126&fixForIE=.exe) or newer.
 
 ## Development
 [Install Rust](https://www.rust-lang.org/en-US/install.html), then:
