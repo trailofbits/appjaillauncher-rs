@@ -12,22 +12,23 @@ AppJailLauncher is akin to a simple version of **xinetd** for Windows but with s
  
 ## Creating Challenges
 
-There is an example challenge template in `example/` that can be built using **CMake**.
+There is an example challenge template in `example/` that can be built using CMake.
 
 To build the example challenge:
-<pre>
+
+```
 > cd example
 > mkdir build
 > cd build
 > cmake ..
 > cmake --build .
-</pre>
+```
 
-After building the example challenge, you can use **appjaillauncher-rs** to serve the challenge via the following command in the root of the repository:
+After building the example challenge, you serve the challenge via the following command in the root of the repository:
 
-<pre>
+```
 > .\target\debug\appjaillauncher-rs.exe run --key .\unittest_support\pub\key2.txt .\example\build\Debug\example_challenge.exe
-</pre>
+```
 
 ## Frequently Asked Questions
 
@@ -42,9 +43,11 @@ AppJailLauncher uses `env_logger` for logging. This means you can get more debug
 
 #### How do I target x86 Windows from x64 Windows with Rust?
 `rustup` should be part of the default Rust install. First, use `rustup` to add the new x86 target:
-<pre>
+
+```
 > rustup target add i686-pc-windows-msvc
-</pre>
+```
+
 After installation, add `--target=i686-pc-windows-msvc` to the `cargo build`, `cargo test` commands to build for x86.
 
 #### I have a complex ACL setup for my key, why won't things work?
@@ -56,7 +59,7 @@ You need to install the [Visual C++ 2015 Build Tools](http://go.microsoft.com/fw
 ## Development
 [Install Rust](https://www.rust-lang.org/en-US/install.html), then:
 
-Build **appjaillauncher-rs**: `cargo build`
+Build AppJailLauncher: `cargo build`
 
 Run the unit tests: `cargo test`
 
