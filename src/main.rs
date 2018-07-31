@@ -196,7 +196,7 @@ pub fn remove_sid_acl_entry(path: &Path, string_sid: &str) -> bool {
         Ok(mut acl) => {
             let sid = string_to_sid(string_sid).unwrap_or(Vec::new());
             if sid.capacity() == 0 {
-                error!("");
+                error!("Failed to convert string SID into SID: sid={:?}", string_sid);
                 return false;
             }
 

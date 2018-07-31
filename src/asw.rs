@@ -17,14 +17,20 @@ use std::iter::once;
 use winapi::shared::inaddr::{in_addr};
 use winapi::shared::minwindef::{DWORD, INT, LPVOID};
 use winapi::shared::ntdef::{NULL};
-use winapi::shared::ws2def::{ADDRINFOW, AF_INET, AI_PASSIVE, SO_REUSEADDR, SOCK_STREAM, SOCKADDR, SOCKADDR_IN, SOL_SOCKET};
+use winapi::shared::ws2def::{
+    ADDRINFOW, AF_INET, AI_PASSIVE, SO_REUSEADDR, SOCK_STREAM, SOCKADDR, SOCKADDR_IN, SOL_SOCKET
+};
 use winapi::um::errhandlingapi::{GetLastError};
 use winapi::um::handleapi::{SetHandleInformation};
 use winapi::um::minwinbase::{LPSECURITY_ATTRIBUTES};
 use winapi::um::synchapi::{CreateEventW};
 use winapi::um::winbase::{HANDLE_FLAG_INHERIT, WAIT_OBJECT_0};
 use winapi::um::winnt::{HANDLE, LPCWSTR, PCWSTR};
-use winapi::um::winsock2::{INVALID_SOCKET, SOCKET, SOCKET_ERROR, WSA_INVALID_EVENT, WSADATA, FD_ACCEPT, accept, bind, closesocket, listen, setsockopt, WSACleanup, WSAEventSelect, WSAGetLastError, WSAPROTOCOL_INFOW, WSASocketW, WSAStartup, WSAWaitForMultipleEvents};
+use winapi::um::winsock2::{
+    INVALID_SOCKET, SOCKET, SOCKET_ERROR, WSA_INVALID_EVENT, WSADATA, FD_ACCEPT, accept, bind, closesocket, listen, 
+    setsockopt, WSACleanup, WSAEventSelect, WSAGetLastError, WSAPROTOCOL_INFOW, WSASocketW, WSAStartup, 
+    WSAWaitForMultipleEvents
+};
 use winapi::um::ws2tcpip::{GetAddrInfoW, InetNtopW};
 
 pub enum TcpServerEvent {

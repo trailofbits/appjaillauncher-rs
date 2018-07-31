@@ -13,11 +13,22 @@ use winapi::shared::winerror::{ERROR_ALREADY_EXISTS, ERROR_FILE_NOT_FOUND, ERROR
 use winapi::um::errhandlingapi::{GetLastError};
 use winapi::um::handleapi::{INVALID_HANDLE_VALUE, CloseHandle, SetHandleInformation};
 use winapi::um::minwinbase::{LPSECURITY_ATTRIBUTES};
-use winapi::um::processthreadsapi::{LPPROC_THREAD_ATTRIBUTE_LIST, LPSTARTUPINFOW, PPROC_THREAD_ATTRIBUTE_LIST, PROCESS_INFORMATION, STARTUPINFOW, CreateProcessW, InitializeProcThreadAttributeList, UpdateProcThreadAttribute};
+use winapi::um::processthreadsapi::{
+    LPPROC_THREAD_ATTRIBUTE_LIST, LPSTARTUPINFOW, PPROC_THREAD_ATTRIBUTE_LIST, PROCESS_INFORMATION, STARTUPINFOW, 
+    CreateProcessW, InitializeProcThreadAttributeList, UpdateProcThreadAttribute
+};
 use winapi::um::securitybaseapi::{FreeSid};
-use winapi::um::userenv::{CreateAppContainerProfile, DeleteAppContainerProfile, DeriveAppContainerSidFromAppContainerName};
-use winapi::um::winbase::{EXTENDED_STARTUPINFO_PRESENT, HANDLE_FLAG_INHERIT, LPSTARTUPINFOEXW, PROC_THREAD_ATTRIBUTE_SECURITY_CAPABILITIES, STARTF_USESHOWWINDOW, STARTF_USESTDHANDLES, STARTUPINFOEXW};
-use winapi::um::winnt::{HANDLE, HRESULT, LPWSTR, PSECURITY_CAPABILITIES, PSID, PSID_AND_ATTRIBUTES, SE_GROUP_ENABLED, SECURITY_CAPABILITIES, SID_AND_ATTRIBUTES};
+use winapi::um::userenv::{
+    CreateAppContainerProfile, DeleteAppContainerProfile, DeriveAppContainerSidFromAppContainerName
+};
+use winapi::um::winbase::{
+    EXTENDED_STARTUPINFO_PRESENT, HANDLE_FLAG_INHERIT, LPSTARTUPINFOEXW, PROC_THREAD_ATTRIBUTE_SECURITY_CAPABILITIES, 
+    STARTF_USESHOWWINDOW, STARTF_USESTDHANDLES, STARTUPINFOEXW
+};
+use winapi::um::winnt::{
+    HANDLE, HRESULT, LPWSTR, PSECURITY_CAPABILITIES, PSID, PSID_AND_ATTRIBUTES, SE_GROUP_ENABLED, 
+    SECURITY_CAPABILITIES, SID_AND_ATTRIBUTES
+};
 use winapi::um::winuser::{SW_HIDE};
 
 use windows_acl::helper::{string_to_sid, sid_to_string};
