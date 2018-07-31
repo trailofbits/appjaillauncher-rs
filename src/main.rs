@@ -22,7 +22,9 @@ mod tests;
 
 use asw::HasRawHandle;
 
-use winapi::um::winnt::{GENERIC_EXECUTE, GENERIC_READ, HANDLE};
+use winapi::um::winnt::{GENERIC_EXECUTE, GENERIC_READ, HANDLE, PSID};
+use windows_acl::acl::{ACL, AceType};
+use windows_acl::helper::{string_to_sid};
 
 use std::path::{Path, PathBuf};
 use std::process;
@@ -41,45 +43,39 @@ fn build_version() -> String {
     format!("{}", prebuilt_ver)
 }
 
-pub fn add_sid_profile_entry(path: &Path, sid: &str, mask: u32) -> bool {
-    // NOTE: Will this mess up for special unicode paths?
-    /*
-    let result = acl::SimpleDacl::from_path(path.to_str().unwrap());
-    if let Err(x) = result {
-        error!("Failed to get ACL from {:?}: error={:}", path, x);
+pub fn add_sid_profile_entry(path: &Path, string_sid: &str, mask: u32) -> bool {
+    let string_path = path.to_str().unwrap_or("");
+    if string_path.is_empty() {
+        error!("Path contains invalid characters: path={:?}", path);
         return false;
     }
 
-    let mut dacl = result.unwrap();
+    match ACL::from_file_path(string_path, false) {
+        Ok(mut acl) => {
+            let sid = string_to_sid(string_sid).unwrap_or(Vec::new());
+            if sid.capacity() == 0 {
+                error!("Failed to convert string SID to SID: sid={:?}", string_sid);
+                return false;
+            }
 
-    if dacl.entry_exists(sid, acl::ACCESS_ALLOWED).is_some() {
-        if !dacl.remove_entry(sid, acl::ACCESS_ALLOWED) {
-            error!("Failed to remove existing ACL entry for AppContainer SID");
+            acl.remove(sid.as_ptr() as PSID, Some(AceType::AccessAllow), None).unwrap_or_else(|code| { 
+                error!("Failed to remove existing entry for sid={:?}: error={}", string_sid, code);
+                0
+            });
+
+            if !acl.allow(sid.as_ptr() as PSID, true, mask).unwrap_or_else(|code| {
+                   error!("Failed to add access allowed entry: error={}", code);
+                   false
+               }) {
+                return false;
+            }
+
+        },
+        Err(code) => {
+            error!("Failed to get ACL from {:?} while adding ACL entry: error={}", path, code);
             return false;
         }
     }
-
-    if !dacl.add_entry(acl::AccessControlEntry {
-                           entryType: acl::ACCESS_ALLOWED,
-                           flags: 0,
-                           mask: mask,
-                           sid: sid.to_string(),
-                       }) {
-        error!("Failed to add AppContainer profile ACL entry from {:?}",
-               path);
-        return false;
-    }
-
-    match dacl.apply_to_path(path.to_str().unwrap()) {
-        Ok(_) => {
-            info!("  Added ACL entry for AppContainer profile in {:?}", path);
-        }
-        Err(x) => {
-            error!("Failed to set new ACL into {:?}: error={:}", path, x);
-            return false;
-        }
-    }
-    */
 
     true
 }
@@ -189,33 +185,33 @@ fn do_run(matches: &ArgMatches) {
     }
 }
 
-pub fn remove_sid_acl_entry(path: &Path, sid: &str) -> bool {
-    // NOTE: Will this mess up for special unicode paths?
-    /*
-    let result = acl::SimpleDacl::from_path(path.to_str().unwrap());
-    if let Err(x) = result {
-        error!("Failed to get ACL from {:?}: error={:}", path, x);
+pub fn remove_sid_acl_entry(path: &Path, string_sid: &str) -> bool {
+    let string_path = path.to_str().unwrap_or("");
+    if string_path.is_empty() {
+        error!("Path contains invalid characters: path={:?}", path);
         return false;
     }
 
-    let mut dacl = result.unwrap();
+    match ACL::from_file_path(string_path, false) {
+        Ok(mut acl) => {
+            let sid = string_to_sid(string_sid).unwrap_or(Vec::new());
+            if sid.capacity() == 0 {
+                error!("");
+                return false;
+            }
 
-    if !dacl.remove_entry(sid, acl::ACCESS_ALLOWED) {
-        error!("Failed to remove AppContainer profile ACL entry from {:?}",
-               path);
-        return false;
-    }
-
-    match dacl.apply_to_path(path.to_str().unwrap()) {
-        Ok(_) => {
-            info!("  Removed ACL entry for AppContainer profile in {:?}", path);
-        }
-        Err(x) => {
-            error!("Failed to set new ACL into {:?}: error={:}", path, x);
+            let result = acl.remove(sid.as_ptr() as PSID, Some(AceType::AccessAllow), None);
+            if result.is_err() {
+                error!("Failed to remove ACL for sid={:?}: error={}", string_sid, result.unwrap_err());
+                return false;
+            }
+        },
+        Err(code) => {
+            error!("Failed to get ACL from path while removing ACL entry: path={:?}, error={}", path, code);
             return false;
         }
     }
-    */
+
     true
 }
 
