@@ -18,5 +18,9 @@ env_logger = "0.4.3"
 windows-acl = { path = "../windows-acl" }
 
 [dependencies.winapi]
-path = "../winapi-rs"
-features = ["errhandlingapi", "fileapi", "handleapi", "inaddr", "minwinbase", "minwindef", "namedpipeapi", "securitybaseapi", "synchapi", "userenv", "winnt", "winsock2", "winbase", "winuser", "ws2def", "ws2tcpip"]
+git = "https://github.com/yying/winapi-rs"
+branch = "features/procthreadattrs"
+features = [
+    "errhandlingapi", "fileapi", "handleapi", "inaddr", "minwinbase", "minwindef", "namedpipeapi", "securitybaseapi", 
+    "synchapi", "userenv", "winnt", "winsock2", "winbase", "winuser", "ws2def", "ws2tcpip"
+]
