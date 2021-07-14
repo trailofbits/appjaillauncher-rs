@@ -23,7 +23,7 @@ use self::winapi::{DWORD, LPVOID, LPWSTR, PSID, INVALID_HANDLE_VALUE, PSID_AND_A
                    PPROC_THREAD_ATTRIBUTE_LIST, SIZE_T, PSIZE_T, PVOID, PSECURITY_CAPABILITIES,
                    STARTUPINFOW, LPSTARTUPINFOW, HANDLE, WORD, LPBYTE, STARTF_USESTDHANDLES,
                    STARTF_USESHOWWINDOW, SW_HIDE, ERROR_FILE_NOT_FOUND, PROCESS_INFORMATION,
-                   EXTENDED_STARTUPINFO_PRESENT, LPSECURITY_ATTRIBUTES};
+                   EXTENDED_STARTUPINFO_PRESENT, LPSECURITY_ATTRIBUTES, DETACHED_PROCESS};
 use std::path::Path;
 use std::ffi::OsStr;
 use std::os::windows::ffi::OsStrExt;
@@ -159,7 +159,7 @@ impl Profile {
             },
             lpAttributeList: 0 as PPROC_THREAD_ATTRIBUTE_LIST,
         };
-        let mut dwCreationFlags: DWORD = 0 as DWORD;
+        let mut dwCreationFlags: DWORD = DETACHED_PROCESS as DWORD;
         let mut attrBuf: Vec<u8>;
 
         if !self.debug {
